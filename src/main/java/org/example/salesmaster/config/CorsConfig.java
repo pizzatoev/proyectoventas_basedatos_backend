@@ -18,8 +18,10 @@ public class CorsConfig {
         // ✅ Orígenes permitidos
         config.setAllowedOrigins(List.of(
                 "http://localhost:3000", // frontend React (Vite)
+                "http://localhost:5173", // Vite dev server (puerto por defecto)
                 "http://localhost:9090", // Vite dev server alternativo
-                "http://127.0.0.1:3000"
+                "http://127.0.0.1:3000",
+                "http://127.0.0.1:5173"
         ));
 
         // ✅ Métodos permitidos

@@ -58,6 +58,22 @@ public class GlobalExceptionHandler {
     }
 
     /**
+     * ⚠️ Argumentos inválidos (400)
+     * Ejemplo: idCliente null, parámetros requeridos faltantes
+     */
+    @ExceptionHandler(IllegalArgumentException.class)
+    public ResponseEntity<ApiResponse<String>> handleIllegalArgument(IllegalArgumentException ex) {
+        return ResponseEntity
+                .status(HttpStatus.BAD_REQUEST)
+                .body(ApiResponse.<String>builder()
+                        .success(false)
+                        .message(ex.getMessage())
+                        .data(null)
+                        .timestamp(LocalDateTime.now())
+                        .build());
+    }
+
+    /**
      * 💥 Errores genéricos no controlados (500)
      * Retorna: HTTP 500 (Internal Server Error)
      */

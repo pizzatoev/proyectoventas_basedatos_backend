@@ -34,6 +34,11 @@ public class PedidoServiceImpl implements PedidoService {
     @Override
     @Transactional
     public PedidoDTO createPedido(PedidoDTO pedidoDTO) {
+        // Validar que idCliente no sea null
+        if (pedidoDTO.getIdCliente() == null) {
+            throw new IllegalArgumentException("El idCliente es obligatorio y no puede ser null");
+        }
+        
         // Buscar cliente
         Cliente cliente = clienteRepository.findById(pedidoDTO.getIdCliente())
                 .orElseThrow(() -> new ResourceNotFoundException(

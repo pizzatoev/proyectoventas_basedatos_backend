@@ -1,5 +1,6 @@
 package org.example.salesmaster.controllers;
 
+import jakarta.validation.Valid;
 import org.example.salesmaster.dtos.pedido.PedidoDTO;
 import org.example.salesmaster.services.PedidoService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +19,7 @@ public class PedidoController {
 
     // localhost:8080/api/pedidos
     @PostMapping
-    public ResponseEntity<PedidoDTO> createPedido(@RequestBody PedidoDTO pedidoDTO) {
+    public ResponseEntity<PedidoDTO> createPedido(@Valid @RequestBody PedidoDTO pedidoDTO) {
         PedidoDTO savedPedidoDTO = pedidoService.createPedido(pedidoDTO);
         return new ResponseEntity<>(savedPedidoDTO, HttpStatus.CREATED);
     }
