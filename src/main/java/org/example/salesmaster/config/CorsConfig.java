@@ -15,7 +15,7 @@ public class CorsConfig {
     public CorsFilter corsFilter() {
         CorsConfiguration config = new CorsConfiguration();
 
-        // ✅ Orígenes permitidos
+        // ✅ Orígenes permitidos (desarrollo local)
         config.setAllowedOrigins(List.of(
                 "http://localhost:3000", // frontend React (Vite)
                 "http://localhost:5173", // Vite dev server (puerto por defecto)
@@ -23,6 +23,9 @@ public class CorsConfig {
                 "http://127.0.0.1:3000",
                 "http://127.0.0.1:5173"
         ));
+
+        // ✅ Permitir frontend en Render (cualquier subdominio de onrender.com)
+        config.setAllowedOriginPatterns(List.of("https://*.onrender.com"));
 
         // ✅ Métodos permitidos
         config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
