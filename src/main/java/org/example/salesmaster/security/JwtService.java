@@ -35,20 +35,24 @@ public class JwtService {
     public void initKey() {
         String secret = null;
 
-        // 1️⃣ Intentar leer desde .env
-        try {
-            secret = dotenv.get("JWT_SECRET");
-        } catch (Exception ignored) {
+        // 1️⃣ Intentar leer desde variable de entorno del sistema (prioridad para Render/producción)
+        secret = System.getenv("JWT_SECRET");
+
+        // 2️⃣ Si no está en variables del sistema, intentar desde .env (solo para desarrollo local)
+        if (secret == null || secret.isBlank()) {
+            try {
+                secret = dotenv.get("JWT_SECRET");
+            } catch (Exception ignored) {
+            }
         }
 
-        // 2️⃣ Intentar leer desde variable de entorno
+        // 3️⃣ Si no se encuentra, lanzar error controlado con instrucciones
         if (secret == null || secret.isBlank()) {
-            secret = System.getenv("JWT_SECRET");
-        }
-
-        // 3️⃣ Si no se encuentra, lanzar error controlado
-        if (secret == null || secret.isBlank()) {
-            throw new IllegalStateException("❌ No se encontró JWT_SECRET ni en .env ni en variables del sistema");
+            throw new IllegalStateException(
+                "❌ JWT_SECRET no encontrada. " +
+                "Configura la variable de entorno JWT_SECRET en Render (Environment → Add Environment Variable). " +
+                "Genera una clave con: openssl rand -base64 64"
+            );
         }
 
         // 4️⃣ Validar tamaño mínimo (256 bits = 32 bytes codificados Base64)

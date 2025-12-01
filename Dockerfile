@@ -16,6 +16,10 @@ RUN ./mvnw dependency:go-offline -B
 # Copiar el código fuente
 COPY src ./src
 
+# Copiar .env si existe (opcional, para desarrollo)
+# En producción, usa variables de entorno de Render
+COPY .env* ./
+
 # Compilar la aplicación
 RUN ./mvnw clean package -DskipTests
 
