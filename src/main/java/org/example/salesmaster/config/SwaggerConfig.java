@@ -4,10 +4,9 @@ import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.info.Info;
 import io.swagger.v3.oas.models.security.SecurityRequirement;
 import io.swagger.v3.oas.models.security.SecurityScheme;
+import org.springdoc.core.models.GroupedOpenApi;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-
-import java.util.List;
 
 /**
  * SwaggerConfig
@@ -32,10 +31,19 @@ public class SwaggerConfig {
                                 new SecurityScheme()
                                         .type(SecurityScheme.Type.HTTP)
                                         .scheme("bearer")
-                                        .bearerFormat("JWT")))
+                                        .bearerFormat("JWT")
+                                        .description("JWT token obtenido del endpoint /api/auth/login")))
                 .addSecurityItem(
-                        new SecurityRequirement().addList("bearerAuth", List.of("read", "write"))
+                        new SecurityRequirement().addList("bearerAuth")
                 );
+    }
+
+    @Bean
+    public GroupedOpenApi publicApi() {
+        return GroupedOpenApi.builder()
+                .group("salesmaster-api")
+                .pathsToMatch("/api/**")
+                .build();
     }
 }
 
